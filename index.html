@@ -3,66 +3,144 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amazon Fire TV</title>
+    <title>PrimeStream Fire TV</title>
     <style>
+        :root {
+            --primary-blue: #00a8e1;
+            --accent-glow: rgba(0, 168, 225, 0.4);
+            --bg-dark: #0a0a0c;
+            --card-bg: rgba(25, 25, 35, 0.85);
+        }
+
         body {
-            background: linear-gradient(to bottom, rgba(18, 18, 18, 0.8), rgba(18, 18, 18, 0.95)), 
-                        url('https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?auto=format&fit=crop&w=1400&q=80');
+            background: linear-gradient(to bottom, rgba(10, 10, 15, 0.75), rgba(10, 10, 15, 0.92)), 
+                        url('image_0.png');
             background-size: cover;
             background-position: center;
+            background-repeat: no-repeat;
             color: #ffffff;
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             height: 100vh;
             margin: 0;
+            overflow: hidden;
+        }
+
+        /* Realistic TV Hardware Bezel Frame */
+        .tv-frame {
+            width: 1020px;
+            height: 600px;
+            background-color: #121215;
+            border-radius: 20px;
+            border: 6px solid #2a2a35;
+            box-shadow: 0 30px 90px rgba(0, 0, 0, 0.9), 
+                        inset 0 0 20px rgba(0, 0, 0, 0.8),
+                        0 0 40px rgba(0, 168, 225, 0.15);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background-image: linear-gradient(135deg, rgba(15,15,20,0.85), rgba(25,25,35,0.9)), 
+                              url('image_0.png');
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* TV Stand Base */
+        .tv-stand-neck {
+            width: 120px;
+            height: 25px;
+            background: linear-gradient(to bottom, #2a2a35, #1a1a22);
+            margin: 0 auto;
+        }
+        .tv-stand-base {
+            width: 300px;
+            height: 12px;
+            background: linear-gradient(to bottom, #3a3a45, #1f1f28);
+            border-radius: 6px;
+            margin: 0 auto;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.6);
+        }
+
+        /* TV Power LED Indicator */
+        .tv-led {
+            position: absolute;
+            bottom: 12px;
+            right: 30px;
+            width: 6px;
+            height: 6px;
+            background-color: #00a8e1;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #00a8e1;
+        }
+
+        /* Cinematic Header Styling */
+        .app-header {
+            text-align: center;
+            margin-bottom: 20px;
         }
         h1 {
-            font-size: 3.5rem;
-            margin-bottom: 10px;
-            text-shadow: 0 4px 10px rgba(0, 0, 0, 0.8);
+            font-size: 2.8rem;
+            margin: 0 0 6px 0;
+            background: linear-gradient(90deg, #ffffff, #00a8e1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 5px 20px rgba(0, 168, 225, 0.3);
+            letter-spacing: 1px;
         }
         #status {
-            font-size: 1.3rem;
-            color: #00a8e1;
-            margin-bottom: 40px;
-            height: 30px;
-            font-weight: bold;
-            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.8);
+            font-size: 1rem;
+            color: #8ab4f8;
+            background: rgba(0, 168, 225, 0.1);
+            padding: 5px 14px;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 168, 225, 0.2);
+            display: inline-block;
         }
+
+        /* TV Menu Layout */
         .menu {
             display: flex;
-            gap: 30px;
+            gap: 25px;
         }
         .card, .trivia-btn {
-            background-color: rgba(31, 31, 31, 0.85);
-            backdrop-filter: blur(5px);
-            border: 3px solid rgba(255, 255, 255, 0.1);
-            padding: 35px 50px;
-            font-size: 1.5rem;
-            border-radius: 14px;
+            background-color: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 2px solid rgba(255, 255, 255, 0.08);
+            padding: 35px 40px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            border-radius: 16px;
             cursor: pointer;
-            transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+            transition: all 0.3s cubic-bezier(0.1, 0.9, 0.2, 1);
             color: white;
             text-align: center;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
         }
+
+        /* Premium TV Focus Ring & Glow */
         .card:focus, .trivia-btn:focus, .back-btn:focus {
-            border-color: #00a8e1;
+            border-color: var(--primary-blue);
             background-color: rgba(0, 168, 225, 0.25);
-            transform: scale(1.08);
-            box-shadow: 0 12px 35px rgba(0, 168, 225, 0.4);
+            transform: scale(1.08) translateY(-4px);
+            box-shadow: 0 0 30px var(--accent-glow), 0 20px 40px rgba(0,0,0,0.8);
             outline: none;
         }
+
+        /* Main TV Glass Container */
         .tv-container {
-            width: 820px;
-            background: rgba(15, 15, 15, 0.95);
+            width: 880px;
+            background: rgba(18, 18, 24, 0.92);
+            backdrop-filter: blur(20px);
             padding: 25px;
-            border-radius: 16px;
+            border-radius: 18px;
             border: 1px solid rgba(0, 168, 225, 0.3);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.9);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.85);
             text-align: center;
         }
         .tv-nav {
@@ -70,31 +148,32 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 15px;
-            border-bottom: 1px solid #333;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             padding-bottom: 10px;
         }
         .tv-badge {
-            background-color: #00a8e1;
+            background: linear-gradient(135deg, #00a8e1, #0077a3);
             color: white;
             padding: 3px 10px;
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             font-weight: bold;
-            border-radius: 4px;
-            letter-spacing: 1px;
+            border-radius: 6px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
         }
         .trivia-options {
             display: flex;
-            gap: 20px;
-            margin-top: 30px;
+            gap: 15px;
+            margin-top: 20px;
             justify-content: center;
         }
         .back-btn {
             margin-top: 15px;
-            padding: 10px 25px;
-            font-size: 1.1rem;
-            background-color: #1f1f1f;
-            border: 2px solid #00a8e1;
-            border-radius: 8px;
+            padding: 8px 22px;
+            font-size: 0.95rem;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 2px solid var(--primary-blue);
+            border-radius: 10px;
             cursor: pointer;
             color: white;
             transition: all 0.2s ease;
@@ -103,13 +182,24 @@
 </head>
 <body>
 
-    <h1>Amazon Fire TV</h1>
-    <div id="status">Use arrow keys to navigate, press Enter to select.</div>
+    <!-- TV Hardware Frame -->
+    <div>
+        <div class="tv-frame">
+            <div class="tv-led"></div>
 
-    <div class="menu" id="main-menu">
-        <div class="card" tabindex="0" autofocus onclick="selectItem('Watch Live Stream')">Watch Live Stream</div>
-        <div class="card" tabindex="0" onclick="selectItem('Interactive Trivia')">Interactive Trivia</div>
-        <div class="card" tabindex="0" onclick="selectItem('Settings')">Settings</div>
+            <div class="app-header">
+                <h1>PrimeStream TV</h1>
+                <div id="status">Use arrow keys to navigate, press Enter to select</div>
+            </div>
+
+            <div class="menu" id="main-menu">
+                <div class="card" tabindex="0" autofocus onclick="selectItem('Watch Live Stream')">Watch Live Stream</div>
+                <div class="card" tabindex="0" onclick="selectItem('Interactive Trivia')">Interactive Trivia</div>
+                <div class="card" tabindex="0" onclick="selectItem('Settings')">Settings</div>
+            </div>
+        </div>
+        <div class="tv-stand-neck"></div>
+        <div class="tv-stand-base"></div>
     </div>
 
     <script>
@@ -140,26 +230,31 @@
         let score = 0;
 
         function selectItem(featureName) {
+            const frame = document.querySelector('.tv-frame');
             if (featureName === 'Watch Live Stream') {
-                document.body.innerHTML = `
-                    <div class="tv-container">
+                frame.innerHTML = `
+                    <div class="tv-led"></div>
+                    <div class="app-header" style="margin-bottom: 10px;">
+                        <h1>PrimeStream TV</h1>
+                    </div>
+                    <div class="tv-container" style="padding: 15px;">
                         <div class="tv-nav">
-                            <span style="font-size: 1.1rem; font-weight: bold; color: #00a8e1;">prime video <span style="font-weight: normal; color: #aaa; font-size: 0.9rem;">| MULTI-CHANNEL STREAM</span></span>
-                            <span class="tv-badge" style="background-color: #e74c3c;">● LIVE</span>
+                            <span style="font-size: 1rem; font-weight: bold; color: #ffffff;">prime video <span style="color: var(--primary-blue); font-size: 0.85rem;">| 4K HDR STREAM</span></span>
+                            <span class="tv-badge" style="background: #e74c3c;">● LIVE</span>
                         </div>
-                        <video id="live-video" width="100%" height="340" controls autoplay style="border-radius: 10px; border: 2px solid #00a8e1; box-shadow: 0 5px 20px rgba(0,0,0,0.8);">
+                        <video id="live-video" width="100%" height="260" controls autoplay style="border-radius: 10px; border: 2px solid var(--primary-blue); box-shadow: 0 10px 30px rgba(0,0,0,0.7);">
                             <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
                             Your browser does not support HTML video.
                         </video>
-                        <div style="margin-top: 10px; text-align: left;">
-                            <h2 id="channel-title" style="margin: 0 0 3px 0; font-size: 1.4rem; color: #fff;">Channel 1: Big Buck Bunny Main Feed</h2>
-                            <p id="channel-desc" style="margin: 0; color: #aaa; font-size: 0.9rem;">High-definition global live streaming demo feed for Fire TV developers.</p>
+                        <div style="margin-top: 8px; text-align: left;">
+                            <h2 id="channel-title" style="margin: 0 0 2px 0; font-size: 1.2rem; color: #fff;">Channel 1: Big Buck Bunny Main Feed</h2>
+                            <p id="channel-desc" style="margin: 0; color: #aaa; font-size: 0.85rem;">Streaming in Ultra HD with Dolby Atmos audio mapping.</p>
                         </div>
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
                             <div style="display: flex; gap: 8px;">
-                                <button class="trivia-btn" style="padding: 8px 12px; font-size: 0.85rem;" tabindex="0" autofocus onclick="changeChannel('https://www.w3schools.com/html/mov_bbb.mp4', 'Channel 1: Big Buck Bunny Main Feed', 'High-definition global live streaming demo feed for Fire TV developers.')">Channel 1</button>
-                                <button class="trivia-btn" style="padding: 8px 12px; font-size: 0.85rem;" tabindex="0" onclick="changeChannel('https://www.w3schools.com/html/movie.mp4', 'Channel 2: Cinematic Movie Trailer', 'Exclusive preview reel showcasing dynamic streaming codecs.')">Channel 2</button>
-                                <button class="trivia-btn" style="padding: 8px 12px; font-size: 0.85rem;" tabindex="0" onclick="changeChannel('https://www.w3schools.com/html/mov_bbb.mp4', 'Channel 3: AWS Cloud Keynote', 'Live architectural walkthrough of cloud-backed television apps.')">Channel 3</button>
+                                <button class="trivia-btn" style="padding: 6px 12px; font-size: 0.85rem;" tabindex="0" autofocus onclick="changeChannel('https://www.w3schools.com/html/mov_bbb.mp4', 'Channel 1: Big Buck Bunny Main Feed', 'Streaming in Ultra HD with Dolby Atmos audio mapping.')">Main Feed</button>
+                                <button class="trivia-btn" style="padding: 6px 12px; font-size: 0.85rem;" tabindex="0" onclick="changeChannel('https://www.w3schools.com/html/movie.mp4', 'Channel 2: Cinematic Movie Trailer', 'Exclusive preview reel showcasing dynamic streaming codecs.')">Movie Trailer</button>
+                                <button class="trivia-btn" style="padding: 6px 12px; font-size: 0.85rem;" tabindex="0" onclick="changeChannel('https://www.w3schools.com/html/mov_bbb.mp4', 'Channel 3: AWS Cloud Keynote', 'Live architectural walkthrough of cloud-backed television apps.')">AWS Keynote</button>
                             </div>
                             <button onclick="location.reload()" class="back-btn" style="margin-top:0;" tabindex="0">Back to Menu</button>
                         </div>
@@ -170,40 +265,36 @@
                 score = 0;
                 renderQuizQuestion();
             } else if (featureName === 'Settings') {
-                document.body.innerHTML = `
-                    <div class="tv-container" style="max-width: 750px;">
+                frame.innerHTML = `
+                    <div class="tv-led"></div>
+                    <div class="app-header" style="margin-bottom: 10px;">
+                        <h1>PrimeStream TV</h1>
+                    </div>
+                    <div class="tv-container" style="max-width: 720px; padding: 15px;">
                         <div class="tv-nav">
-                            <span style="font-size: 1.1rem; font-weight: bold; color: #00a8e1;">fire tv <span style="font-weight: normal; color: #aaa; font-size: 0.9rem;">| SYSTEM PREFERENCES</span></span>
+                            <span style="font-size: 1rem; font-weight: bold; color: #ffffff;">fire tv <span style="color: var(--primary-blue); font-size: 0.85rem;">| SYSTEM PREFERENCES</span></span>
                             <span class="tv-badge">CONFIG</span>
                         </div>
-                        <div style="display: flex; flex-direction: column; gap: 10px; text-align: left; background: rgba(255,255,255,0.03); padding: 15px; border-radius: 12px; margin-top: 10px; max-height: 380px; overflow-y: auto;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 1rem;">
+                        <div style="display: flex; flex-direction: column; gap: 8px; text-align: left; background: rgba(0,0,0,0.2); padding: 12px; border-radius: 12px; margin-top: 5px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.95rem;">
                                 <span>Active User Profile:</span>
-                                <button class="trivia-btn" style="padding: 6px 15px; font-size: 0.9rem;" tabindex="0" autofocus onclick="toggleSetting(this, ['Indira (Owner)', 'Developer Pro', 'Family Guest', 'Kids Safe'])">Indira (Owner)</button>
+                                <button class="trivia-btn" style="padding: 5px 14px; font-size: 0.85rem;" tabindex="0" autofocus onclick="toggleSetting(this, ['Indira (Owner)', 'Developer Pro', 'Family Guest', 'Kids Safe'])">Indira (Owner)</button>
                             </div>
-                            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 1rem;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.95rem;">
                                 <span>Streaming Quality:</span>
-                                <button class="trivia-btn" style="padding: 6px 15px; font-size: 0.9rem;" tabindex="0" onclick="toggleSetting(this, ['4K Ultra HD', '1080p HD', '720p'])">4K Ultra HD</button>
+                                <button class="trivia-btn" style="padding: 5px 14px; font-size: 0.85rem;" tabindex="0" onclick="toggleSetting(this, ['4K Ultra HD', '1080p HD', '720p'])">4K Ultra HD</button>
                             </div>
-                            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 1rem;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.95rem;">
                                 <span>Audio Language:</span>
-                                <button class="trivia-btn" style="padding: 6px 15px; font-size: 0.9rem;" tabindex="0" onclick="toggleSetting(this, ['English (Original)', 'Telugu', 'Spanish', 'French'])">English (Original)</button>
+                                <button class="trivia-btn" style="padding: 5px 14px; font-size: 0.85rem;" tabindex="0" onclick="toggleSetting(this, ['English (Original)', 'Telugu', 'Spanish', 'French'])">English (Original)</button>
                             </div>
-                            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 1rem;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.95rem;">
                                 <span>Closed Captions (CC):</span>
-                                <button class="trivia-btn" style="padding: 6px 15px; font-size: 0.9rem;" tabindex="0" onclick="toggleSetting(this, ['Off', 'On (English)', 'On (Telugu)'])">Off</button>
+                                <button class="trivia-btn" style="padding: 5px 14px; font-size: 0.85rem;" tabindex="0" onclick="toggleSetting(this, ['Off', 'On (English)', 'On (Telugu)'])">Off</button>
                             </div>
-                            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 1rem;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.95rem;">
                                 <span>Parental Controls:</span>
-                                <button class="trivia-btn" style="padding: 6px 15px; font-size: 0.9rem;" tabindex="0" onclick="toggleSetting(this, ['Unlocked', 'PIN Protected'])">Unlocked</button>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 1rem;">
-                                <span>Network Connection:</span>
-                                <button class="trivia-btn" style="padding: 6px 15px; font-size: 0.9rem;" tabindex="0" onclick="toggleSetting(this, ['Wi-Fi (5GHz - Strong)', 'Ethernet (Gigabit)'])">Wi-Fi (5GHz - Strong)</button>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 1rem;">
-                                <span>High Contrast UI:</span>
-                                <button class="trivia-btn" style="padding: 6px 15px; font-size: 0.9rem;" tabindex="0" onclick="toggleSetting(this, ['Enabled', 'Disabled'])">Enabled</button>
+                                <button class="trivia-btn" style="padding: 5px 14px; font-size: 0.85rem;" tabindex="0" onclick="toggleSetting(this, ['Unlocked', 'PIN Protected'])">Unlocked</button>
                             </div>
                         </div>
                         <div style="text-align: right; margin-top: 10px;">
@@ -215,23 +306,28 @@
         }
 
         function renderQuizQuestion() {
+            const frame = document.querySelector('.tv-frame');
             const currentQ = quizQuestions[currentQuestionIndex];
-            document.body.innerHTML = `
-                <div class="tv-container">
+            frame.innerHTML = `
+                <div class="tv-led"></div>
+                <div class="app-header" style="margin-bottom: 10px;">
+                    <h1>PrimeStream TV</h1>
+                </div>
+                <div class="tv-container" style="padding: 20px;">
                     <div class="tv-nav">
-                        <span style="font-size: 1.1rem; font-weight: bold; color: #00a8e1;">prime video <span style="font-weight: normal; color: #aaa; font-size: 0.9rem;">| X-RAY TRIVIA</span></span>
+                        <span style="font-size: 1rem; font-weight: bold; color: #ffffff;">prime video <span style="color: var(--primary-blue); font-size: 0.85rem;">| X-RAY TRIVIA</span></span>
                         <span class="tv-badge">QUESTION ${currentQuestionIndex + 1} OF ${quizQuestions.length}</span>
                     </div>
-                    <h2 style="color: #fff; font-size: 1.8rem; margin-top: 15px;">Fire TV Pop Quiz</h2>
-                    <p style="font-size: 1.3rem; color: #ddd; margin-top: 10px;">${currentQ.question}</p>
+                    <h2 style="color: #fff; font-size: 1.5rem; margin-top: 10px;">Fire TV Pop Quiz</h2>
+                    <p style="font-size: 1.1rem; color: #ddd; margin-top: 8px;">${currentQ.question}</p>
                     <div class="trivia-options">
                         ${currentQ.options.map((opt, idx) => `
-                            <button class="trivia-btn" style="padding: 18px 25px; font-size: 1rem;" tabindex="0" ${idx === 0 ? 'autofocus' : ''} onclick="handleAnswer(${idx})">${opt}</button>
+                            <button class="trivia-btn" style="padding: 14px 20px; font-size: 0.9rem;" tabindex="0" ${idx === 0 ? 'autofocus' : ''} onclick="handleAnswer(${idx})">${opt}</button>
                         `).join('')}
                     </div>
-                    <p id="trivia-result" style="font-size: 1.2rem; margin-top: 25px; height: 25px; font-weight: bold;"></p>
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px;">
-                        <span style="color: #00a8e1; font-weight: bold; font-size: 1rem;">Current Score: ${score}</span>
+                    <p id="trivia-result" style="font-size: 1rem; margin-top: 15px; height: 20px; font-weight: bold;"></p>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+                        <span style="color: var(--primary-blue); font-weight: bold; font-size: 0.95rem;">Score: ${score}</span>
                         <button onclick="location.reload()" class="back-btn" tabindex="0">Back to Menu</button>
                     </div>
                 </div>
@@ -265,17 +361,21 @@
         }
 
         function renderFinalScore() {
-            document.body.innerHTML = `
-                <div class="tv-container">
+            const frame = document.querySelector('.tv-frame');
+            frame.innerHTML = `
+                <div class="tv-led"></div>
+                <div class="app-header" style="margin-bottom: 10px;">
+                    <h1>PrimeStream TV</h1>
+                </div>
+                <div class="tv-container" style="padding: 25px;">
                     <div class="tv-nav">
-                        <span style="font-size: 1.1rem; font-weight: bold; color: #00a8e1;">prime video <span style="font-weight: normal; color: #aaa; font-size: 0.9rem;">| X-RAY TRIVIA</span></span>
+                        <span style="font-size: 1rem; font-weight: bold; color: #ffffff;">prime video <span style="color: var(--primary-blue); font-size: 0.85rem;">| X-RAY TRIVIA</span></span>
                         <span class="tv-badge">COMPLETED</span>
                     </div>
-                    <h2 style="color: #2ecc71; font-size: 2.2rem; margin-top: 15px;">Quiz Completed!</h2>
-                    <p style="font-size: 1.5rem; color: #fff; margin-top: 15px;">Your Final Score: <strong style="color: #00a8e1;">${score} / ${quizQuestions.length}</strong></p>
-                    <p style="font-size: 1.1rem; color: #aaa;">Great job testing your Fire TV & AWS knowledge!</p>
-                    <div style="display: flex; gap: 15px; justify-content: center; margin-top: 25px;">
-                        <button onclick="selectItem('Interactive Trivia')" class="trivia-btn" style="padding: 12px 25px; font-size: 1.1rem;" tabindex="0" autofocus>Play Again</button>
+                    <h2 style="color: #2ecc71; font-size: 1.8rem; margin-top: 15px;">Quiz Completed!</h2>
+                    <p style="font-size: 1.3rem; color: #fff; margin-top: 10px;">Your Final Score: <strong style="color: var(--primary-blue);">${score} / ${quizQuestions.length}</strong></p>
+                    <div style="display: flex; gap: 15px; justify-content: center; margin-top: 20px;">
+                        <button onclick="selectItem('Interactive Trivia')" class="trivia-btn" style="padding: 10px 22px; font-size: 0.95rem;" tabindex="0" autofocus>Play Again</button>
                         <button onclick="location.reload()" class="back-btn" style="margin-top:0;" tabindex="0">Back to Menu</button>
                     </div>
                 </div>
